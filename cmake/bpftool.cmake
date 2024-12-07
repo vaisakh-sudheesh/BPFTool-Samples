@@ -2,6 +2,9 @@ find_program(BPFTOOL_EXECUTABLE NAMES bpftool)
 if(NOT BPFTOOL_EXECUTABLE)
     message(FATAL_ERROR "bpftool executable not found in PATH")
 endif()
+set (BPFTOOL_EXECUTABLE ${BPFTOOL_EXECUTABLE} CACHE STRING "Path to the bpftool executable")
+set (BPFTOOL_HEADERS /usr/src/linux-headers-6.8.0-48-generic/tools/bpf/resolve_btfids/libbpf/include/ CACHE STRING "Path to the bpftool headers")
+set (BPFTOOL_LIBRARIES /usr/src/linux-headers-6.8.0-48-generic/tools/bpf/resolve_btfids/libbpf/ CACHE STRING "Path to the bpftool libraries")
 
 ###############################################################################
 ### Generate vmlinux.h for BPF code compilation
@@ -28,7 +31,7 @@ function(build_bpf TARGET_NAME BPF_SOURCE BPF_OBJECT)
                                       -c ${BPF_SOURCE}
                                       -o ${BPF_OBJECT}
                                       -I${CMAKE_BINARY_DIR}
-                                      -I/usr/src/linux-headers-6.8.0-48-generic/tools/bpf/resolve_btfids/libbpf/include/
+                                      -I${BPFTOOL_HEADERS}
         DEPENDS ${BPF_SOURCE} generate_vmlinux_h
         COMMENT "Compiling BPF code ${BPF_SOURCE} into ${BPF_OBJECT}"
     )
@@ -60,3 +63,4 @@ function(bpf_module TARGET_NAME BPF_SOURCE BPF_OBJECT BPF_SKELETON)
     build_bpf(${TARGET_NAME} ${BPF_SOURCE} ${BPF_OBJECT})
     generate_bpf_skeleton(${TARGET_NAME} ${BPF_OBJECT} ${BPF_SKELETON})
 endfunction(bpf_module)
+
