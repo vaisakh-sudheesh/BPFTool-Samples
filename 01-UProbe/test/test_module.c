@@ -2,10 +2,10 @@
 
 void test_function(void)
 {
-    printf("Hello, world!\n");
+    printf("[test_function] Hello, world!\n");
 }
 
 int test_return (int a, int b) {
-    printf("a: %d, b: %d\n", a, b);
+    printf("[test_return] a: %d, b: %d ==> ret = %d \n", a, b , a + b);
     return a + b;
 }
