@@ -19,7 +19,7 @@ This sample program demonstrates how to monitor `malloc` and `free` call issued 
 ```
 
 
-## Demo
+## Demo - PC
 
 Test command execution issuing allocation/deallocation calls to be monitored:
 ```shell
@@ -124,4 +124,41 @@ PID: 143325 => Freeing memory
 ### .....
 ### .....
 
+```
+
+## Demo - Android
+
+the uprobe based monitor is started which observes the allocation using `lib/libscudo_library.so` library.
+
+```shell
+tokay:/data/local/tmp $ ./03-UProbe-Monitor-Allocs-userspace 
+                                                                                                                                                    
+UProbe-Userspace module
+BPF object loaded
+UProbe attached
+Press Ctrl+C to stop
+PID: 17505 => Freeing memory
+PID: 17505 => Freeing memory
+PID: 17505 => Freeing memory
+PID: 17505 => Allocation of size: 48
+PID: 17505 => Allocation of size: 48
+PID: 17505 => Freeing memory
+PID: 17505 => Freeing memory
+PID: 17505 => Freeing memory
+PID: 17505 => Allocation of size: 48
+PID: 17505 => Freeing memory
+PID: 17505 => Allocation of size: 8
+PID: 17505 => Freeing memory
+PID: 17505 => Allocation of size: 1024
+PID: 17505 => Freeing memory
+### .....
+### .....
+```
+
+Test command execution issuing allocation/deallocation calls to be monitored:
+
+```shell
+tokay:/data/local/tmp $ LD_PRELOAD=./libscudo_library.so LD_LIBRARY_PATH=$PWD ./allocation_test
+Allocation test!
+Time taken for 100 allocations: 0.000927 seconds
 ```

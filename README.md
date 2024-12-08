@@ -121,12 +121,28 @@ $ sudo apt install linux-tools-common linux-tools-generic linux-tools-$(uname -r
 
 ## Build commands
 
+Build commands for PC:
+
 ```shell
 $ git clone https://github.com/vaisakh-sudheesh/BPFTool-Samples.git
 $ cd BPFTool-Samples
 $ mkdir build-dir && cd build-dir
 $ cmake -S .. -DCMAKE_C_COMPILER=clang-19 -DCMAKE_CXX_COMPILER=clang++-19
 $ cmake --build .
+```
+
+In case of Android, 
+- the configuration step need to be changed w.r.t to the above command listing.
+- Make sure ADB is running in root mode - this is required as `BPFTool` need to be pushed to device in `/data/local/tmp` path to generate skeleton.
+
+To build for an Android device:
+```shell
+$ adb root
+$ cmake -S .. -DCMAKE_TOOLCHAIN_FILE=$NDK_PATH/build/cmake/android.toolchain.cmake  -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-34
+$ cmake --build . 
+
+## Additional command to push the result files to device
+$ cmake --build . --target install_files
 ```
 
 Once this is done, the output files will be available in `build-dir/bin` and `build-dir/lib` directories as listed below:
