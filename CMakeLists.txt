@@ -19,6 +19,7 @@ generate_build_dir_header(${CMAKE_BINARY_DIR}/build_info.h)
 
 # Find the bpftool executable & setup the relevant build rules
 include(bpftool)
+include (aosp)
 
 enable_testing()
 
