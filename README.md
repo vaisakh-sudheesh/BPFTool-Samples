@@ -116,7 +116,8 @@ $ sudo apt install linux-tools-common linux-tools-generic linux-tools-$(uname -r
 
 ## Pre-requisites (for Android based development)
 
-<TODO>
+- Install following  Android NDK version `27.x` or above
+- Install android platform tools (for ADB). You may do so by downloading it from Google Android website or via apt (`sudo apt install android-platform-tools-base`)
 
 ## Build commands
 
