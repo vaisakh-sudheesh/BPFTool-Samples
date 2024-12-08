@@ -14,6 +14,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fdiagnostics-color=always")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 
+include(utils)
+generate_build_dir_header(${CMAKE_BINARY_DIR}/build_info.h)
+
 # Find the bpftool executable & setup the relevant build rules
 include(bpftool)
 
