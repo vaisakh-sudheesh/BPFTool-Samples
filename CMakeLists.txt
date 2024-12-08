@@ -22,6 +22,7 @@ enable_testing()
 # Add the subdirectories for each sample
 add_subdirectory(01-UProbe-Print)
 add_subdirectory(02-UProbe-RingBuff)
+add_subdirectory(03-Uprobe-monitor-allocs)
 add_subdirectory(tests)
 
 

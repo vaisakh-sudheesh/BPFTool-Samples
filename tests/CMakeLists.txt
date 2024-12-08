@@ -11,3 +11,14 @@ file(GLOB SCUDO_SOURCES "${CMAKE_CURRENT_LIST_DIR}/llvm-project-llvmorg-19.1.5/s
 # Create a library from the collected source files
 add_library(scudo_library SHARED ${SCUDO_SOURCES})
 target_include_directories(scudo_library PRIVATE "${CMAKE_CURRENT_LIST_DIR}/llvm-project-llvmorg-19.1.5/scudo-standalone/include")
+
+# Add the executable
+add_executable(allocation_test "${CMAKE_CURRENT_LIST_DIR}/test_alloc.c")
+add_dependencies(allocation_test scudo_library)
+
+enable_testing()
+add_test(
+    NAME scudo_tests
+    COMMAND allocation_test
+)
+set_property(TEST scudo_tests PROPERTY ENVIRONMENT "LD_PRELOAD=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libscudo_library.so")
