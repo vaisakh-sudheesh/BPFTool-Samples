@@ -85,6 +85,74 @@ Bpftrace proves whether indeed a uprobe is working.
 
 In order for it to be more flexible and programmer friendly, `bpftool` lets us compile wrapper functions in to a header file which can be included in to test/monitoring program.
 
+The development workflow involving bpftool is demonstrated in the diagram below:
+![BPFTool development workflow](/docs/BPFTool.drawio.png)
+
+- The developed BPF code is compiled using `clang` compiler using in to an object file.
+- The `bpftool` can consume the BPF object file generated above, to obtain a skeleton header file using `bpftool gen skeleton` command(refer `cmake\bpftools.cmake` for more information)
+   - This skeleton header file contains all necessary functions and structure to perform key BPF operations such as load, attach, detach, destory etc.
+   - In case of this project build configuration, these headers will be available in the build-directory.
+- The user-space program which intends to perform the observability operation, may include this skeleton header file to load and manage the BPF code.
+- The compiled executable of above mentioned user-space program can be executed with `sudo` permission to perform the intended observability operation.
+
+The sub-directories contain examples of various observability implementations for your reference.
+
+## Pre-requisites (for PC based development)
+
+Install clang:
+
+```shell 
+$ cd ~/Downloads
+$ wget https://apt.llvm.org/llvm.sh
+$ chmod +x llvm.sh
+$ sudo ./llvm.sh 19
+```
+
+Install BPF related dependencies:
+
+```shell
+$ sudo apt install linux-tools-common linux-tools-generic linux-tools-$(uname -r) bpftrace
+```
+
+## Pre-requisites (for Android based development)
+
+<TODO>
+
+## Build commands
+
+```shell
+$ git clone https://github.com/vaisakh-sudheesh/BPFTool-Samples.git
+$ cd BPFTool-Samples
+$ mkdir build-dir && cd build-dir
+$ cmake -S .. -DCMAKE_C_COMPILER=clang-19 -DCMAKE_CXX_COMPILER=clang++-19
+$ cmake --build .
+```
+
+Once this is done, the output files will be available in `build-dir/bin` and `build-dir/lib` directories as listed below:
+
+```shell
+$ ls -lah bin/ lib/
+bin/:
+total 5.0M
+drwxrwxr-x 2 vaisakhps vaisakhps 4.0K Dec  9 02:20 .
+drwxrwxr-x 9 vaisakhps vaisakhps 4.0K Dec  9 02:20 ..
+-rwxrwxr-x 1 vaisakhps vaisakhps 1.7M Dec  9 02:20 01-UProbe-Print-userspace
+-rwxrwxr-x 1 vaisakhps vaisakhps 1.7M Dec  9 02:20 02-UProbe-RingBuff-userspace
+-rwxrwxr-x 1 vaisakhps vaisakhps 1.7M Dec  9 02:20 03-UProbe-Monitor-Allocs-userspace
+-rwxrwxr-x 1 vaisakhps vaisakhps  16K Dec  9 02:20 allocation_test
+-rwxrwxr-x 1 vaisakhps vaisakhps  16K Dec  9 02:20 test_executable
+
+lib/:
+total 336K
+drwxrwxr-x 2 vaisakhps vaisakhps 4.0K Dec  9 02:20 .
+drwxrwxr-x 9 vaisakhps vaisakhps 4.0K Dec  9 02:20 ..
+-rwxrwxr-x 1 vaisakhps vaisakhps 309K Dec  9 02:20 libscudo_library.so
+-rwxrwxr-x 1 vaisakhps vaisakhps  16K Dec  9 02:20 libtest_library.so
+
+```
+
+Details about each of the examples are provided in respective README.md in the directories.
+
 
 ## References
 
