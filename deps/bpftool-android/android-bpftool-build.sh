@@ -16,4 +16,4 @@ find -D exec out/target/product/generic_arm64/obj/ \( -name libzstd.a -o -name l
 
 find -D exec out/target/product/generic_arm64/obj/ \( -name bpftool \) -print0 | xargs -0 -I {} cp -f {} $PROJECT_PATH/bin/
 
-cp -avr out/soong/.intermediates/external/libbpf/libbpf_headers/gen/ $PROJECT_PATH/include/
+cp -avr out/soong/.intermediates/external/libbpf/libbpf_headers/gen/bpf $PROJECT_PATH/include/
