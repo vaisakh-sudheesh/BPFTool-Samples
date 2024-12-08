@@ -24,14 +24,15 @@ add_custom_target(generate_vmlinux_h ALL
 ### Compile BPF code into object files
 ###############################################################################
 
-function(build_bpf TARGET_NAME BPF_SOURCE BPF_OBJECT)
+function(build_bpf TARGET_NAME BPF_SOURCE BPF_OBJECT BPF_EXTRA_INCLUDES )
     add_custom_command(
         OUTPUT ${BPF_OBJECT}
-        COMMAND ${CMAKE_C_COMPILER} -O2 -target bpf 
+        COMMAND ${CMAKE_C_COMPILER} -O2 -target bpf -g
                                       -c ${BPF_SOURCE}
                                       -o ${BPF_OBJECT}
                                       -I${CMAKE_BINARY_DIR}
                                       -I${BPFTOOL_HEADERS}
+                                      -I${BPF_EXTRA_INCLUDES}
         DEPENDS ${BPF_SOURCE} generate_vmlinux_h
         COMMENT "Compiling BPF code ${BPF_SOURCE} into ${BPF_OBJECT}"
     )
@@ -59,8 +60,8 @@ endfunction(generate_bpf_skeleton)
 ###############################################################################
 ### Utility function to wrap up all the necessary bpf module tooling operations.
 ###############################################################################
-function(bpf_module TARGET_NAME BPF_SOURCE BPF_OBJECT BPF_SKELETON)
-    build_bpf(${TARGET_NAME} ${BPF_SOURCE} ${BPF_OBJECT})
+function(bpf_module TARGET_NAME BPF_SOURCE BPF_OBJECT BPF_SKELETON BPF_EXTRA_INCLUDES)
+    build_bpf(${TARGET_NAME} ${BPF_SOURCE} ${BPF_OBJECT} ${BPF_EXTRA_INCLUDES})
     generate_bpf_skeleton(${TARGET_NAME} ${BPF_OBJECT} ${BPF_SKELETON})
 endfunction(bpf_module)
 
