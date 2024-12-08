@@ -2,9 +2,17 @@ find_program(BPFTOOL_EXECUTABLE NAMES bpftool)
 if(NOT BPFTOOL_EXECUTABLE)
     message(FATAL_ERROR "bpftool executable not found in PATH")
 endif()
+
+execute_process(
+    COMMAND uname -r
+    OUTPUT_VARIABLE KERNEL_VERSION
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+message(STATUS "Kernel version: ${KERNEL_VERSION}")
+
 set (BPFTOOL_EXECUTABLE ${BPFTOOL_EXECUTABLE} CACHE STRING "Path to the bpftool executable")
-set (BPFTOOL_HEADERS /usr/src/linux-headers-6.8.0-48-generic/tools/bpf/resolve_btfids/libbpf/include/ CACHE STRING "Path to the bpftool headers")
-set (BPFTOOL_LIBRARIES /usr/src/linux-headers-6.8.0-48-generic/tools/bpf/resolve_btfids/libbpf/ CACHE STRING "Path to the bpftool libraries")
+set (BPFTOOL_HEADERS /usr/src/linux-headers-${KERNEL_VERSION}/tools/bpf/resolve_btfids/libbpf/include/ CACHE STRING "Path to the bpftool headers")
+set (BPFTOOL_LIBRARIES /usr/src/linux-headers-${KERNEL_VERSION}/tools/bpf/resolve_btfids/libbpf/ CACHE STRING "Path to the bpftool libraries")
 
 ###############################################################################
 ### Generate vmlinux.h for BPF code compilation
