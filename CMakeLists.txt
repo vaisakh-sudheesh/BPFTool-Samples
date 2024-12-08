@@ -27,8 +27,9 @@ else()
     generate_build_dir_header_android(${CMAKE_BINARY_DIR}/build_info.h)
     ## Trying to build for Android
     message(STATUS "Cross-compiling for Android")
-    include(android-bpftools)
+    include (install)
     include (aosp)
+    include(android-bpftools)    
 endif(NOT CMAKE_TOOLCHAIN_FILE)
 
 enable_testing()

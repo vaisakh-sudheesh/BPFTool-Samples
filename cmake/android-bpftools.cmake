@@ -82,5 +82,6 @@ function(bpf_userspace_module TARGET_NAME USERSPACE_SOURCE BPF_SKELETON_TGTNAME)
     target_link_directories(${TARGET_NAME} PRIVATE ${CMAKE_BINARY_DIR} ${BPFTOOL_LIBRARIES})
     target_link_libraries(${TARGET_NAME} PRIVATE bpf elf z zstd)
     add_dependencies(${TARGET_NAME} generate_vmlinux_h bpf_skeleton_${BPF_SKELETON_TGTNAME} )
+    install_target(${TARGET_NAME})
 endfunction(bpf_userspace_module)
 
