@@ -5,13 +5,15 @@
 #include <bpf/bpf_tracing.h>
 #include <bpf/bpf_core_read.h>
 
+#include "build_info.h"
+
 
 struct {
 	__uint(type, BPF_MAP_TYPE_RINGBUF);
 	__uint(max_entries, 1 << 24);
 } events SEC(".maps");
 
-SEC("uprobe//home/vaisakhps/developer/eBPF/BPFTool-Samples/build/lib/libscudo_library.so:malloc")
+SEC("uprobe/"BUILD_DIR"/lib/libscudo_library.so:malloc")
 int BPF_UPROBE(malloccall, const int arg1)
 {
 	struct event *e;
@@ -28,7 +30,7 @@ int BPF_UPROBE(malloccall, const int arg1)
 	return 0;
 }
 
-SEC("uprobe//home/vaisakhps/developer/eBPF/BPFTool-Samples/build/lib/libscudo_library.so:free")
+SEC("uprobe/"BUILD_DIR"/lib/libscudo_library.so:free")
 int BPF_UPROBE(freecall)
 {
 	struct event *e;

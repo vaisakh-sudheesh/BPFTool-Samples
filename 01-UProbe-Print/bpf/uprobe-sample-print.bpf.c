@@ -2,9 +2,10 @@
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
+#include "build_info.h"
 
 
-SEC("uprobe//home/vaisakhps/developer/eBPF/BPFTool-Samples/build/lib/libtest_library.so:test_return")
+SEC("uprobe/"BUILD_DIR"/lib/libtest_library.so:test_return")
 int BPF_UPROBE(printargs, const int arg1, const  int arg2 )
 {
 	u32 pid;
@@ -13,7 +14,7 @@ int BPF_UPROBE(printargs, const int arg1, const  int arg2 )
 	return 0;
 }
 
-SEC("uretprobe//home/vaisakhps/developer/eBPF/BPFTool-Samples/build/lib/libtest_library.so:test_return")
+SEC("uretprobe/"BUILD_DIR"/lib/libtest_library.so:test_return")
 int BPF_URETPROBE(printret, const int ret)
 {
 	u32 pid;
