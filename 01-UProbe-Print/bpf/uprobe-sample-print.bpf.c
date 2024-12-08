@@ -5,7 +5,7 @@
 
 
 
-SEC("uprobe/"BUILD_DIR"/lib/libtest_library.so:test_return")
+SEC("uprobe/"BUILD_DIR"/libtest_library.so:test_return")
 int BPF_UPROBE(printargs, const int arg1, const  int arg2 )
 {
 	u32 pid;
@@ -14,7 +14,7 @@ int BPF_UPROBE(printargs, const int arg1, const  int arg2 )
 	return 0;
 }
 
-SEC("uretprobe/"BUILD_DIR"/lib/libtest_library.so:test_return")
+SEC("uretprobe/"BUILD_DIR"/libtest_library.so:test_return")
 int BPF_URETPROBE(printret, const int ret)
 {
 	u32 pid;

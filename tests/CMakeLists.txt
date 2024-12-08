@@ -12,11 +12,6 @@ file(GLOB SCUDO_SOURCES "${CMAKE_CURRENT_LIST_DIR}/llvm-project-llvmorg-19.1.5/s
 add_library(scudo_library SHARED ${SCUDO_SOURCES})
 target_include_directories(scudo_library PRIVATE "${CMAKE_CURRENT_LIST_DIR}/llvm-project-llvmorg-19.1.5/scudo-standalone/include")
 
-if (CMAKE_TOOLCHAIN_FILE)
-    # Install the library to the target directory - Android's case
-    install_target_library(scudo_library)
-endif(CMAKE_TOOLCHAIN_FILE)
-
 # Add the executable
 add_executable(allocation_test "${CMAKE_CURRENT_LIST_DIR}/test_alloc.c")
 add_dependencies(allocation_test scudo_library)
@@ -27,3 +22,11 @@ add_test(
     COMMAND allocation_test
 )
 set_property(TEST scudo_tests PROPERTY ENVIRONMENT "LD_PRELOAD=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libscudo_library.so")
+
+if (CMAKE_TOOLCHAIN_FILE)
+    # Install the library to the target directory - Android's case
+    install_target_library(scudo_library)
+    install_target_library(test_library)
+    install_target(test_executable)
+    install_target(allocation_test)
+endif(CMAKE_TOOLCHAIN_FILE)

@@ -11,7 +11,7 @@ struct {
 	__uint(max_entries, 1 << 24);
 } events SEC(".maps");
 
-SEC("uprobe/"BUILD_DIR"/lib/libscudo_library.so:malloc")
+SEC("uprobe/"BUILD_DIR"/libscudo_library.so:malloc")
 int BPF_UPROBE(malloccall, const int arg1)
 {
 	struct event *e;
@@ -28,7 +28,7 @@ int BPF_UPROBE(malloccall, const int arg1)
 	return 0;
 }
 
-SEC("uprobe/"BUILD_DIR"/lib/libscudo_library.so:free")
+SEC("uprobe/"BUILD_DIR"/libscudo_library.so:free")
 int BPF_UPROBE(freecall)
 {
 	struct event *e;
