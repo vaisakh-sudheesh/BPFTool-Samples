@@ -20,11 +20,10 @@ int BPF_UPROBE(printargs, const int arg1, const int arg2)
 	e = bpf_ringbuf_reserve(&events, sizeof(*e), 0);
 	if (!e)
 		return 0;
-
+	e->type = EVENT_TYPE_ENTER;
 	e->pid = pid;
 	e->arg1 = arg1;
 	e->arg2 = arg2;
-	__builtin_memcpy(e->func_name, "test_return", sizeof("test_return"));
 
 	bpf_ringbuf_submit(e, 0);
 	return 0;
@@ -41,6 +40,7 @@ int BPF_URETPROBE(printret, const int ret)
 		return 0;
 
 	e->pid = pid;
+	e->type = EVENT_TYPE_EXIT;
 	e->ret = ret;
 	__builtin_memcpy(e->func_name, "test_return", sizeof("test_return"));
 

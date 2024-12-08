@@ -8,7 +8,11 @@
 
 int handle_event(void *ctx, void *data, size_t size) {
     auto event = static_cast<struct event *>(data);
-    std::cout << "PID: " << event->pid << " => " << event->func_name << " invoked with args: " << event->arg1 << ", " << event->arg2 << std::endl;
+    if (event->type == EVENT_TYPE_EXIT) {
+        std::cout << "PID: " << event->pid << " => " << event->func_name << " returned: " << event->ret << std::endl;
+    } else {
+        std::cout << "PID: " << event->pid << " => " << event->func_name << " invoked with args: " << event->arg1 << ", " << event->arg2 << std::endl;
+    }
     return 0;
 }
 

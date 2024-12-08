@@ -20,4 +20,8 @@ include(bpftool)
 enable_testing()
 
 # Add the subdirectories for each sample
-add_subdirectory(01-UProbe)
+add_subdirectory(01-UProbe-Print)
+add_subdirectory(02-UProbe-RingBuff)
+add_subdirectory(tests)
+
+
