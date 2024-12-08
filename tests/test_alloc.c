@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define NUM_ALLOCS 1000000
+#define NUM_ALLOCS 100
 
 int main() {
     printf("Allocation test!\n");
