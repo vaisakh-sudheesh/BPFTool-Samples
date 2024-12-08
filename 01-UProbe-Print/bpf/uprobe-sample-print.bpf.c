@@ -1,8 +1,8 @@
-#define __TARGET_ARCH_x86
+#include "build_info.h"
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
-#include "build_info.h"
+
 
 
 SEC("uprobe/"BUILD_DIR"/lib/libtest_library.so:test_return")

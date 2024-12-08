@@ -15,11 +15,21 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 
 include(utils)
-generate_build_dir_header(${CMAKE_BINARY_DIR}/build_info.h)
+
 
 # Find the bpftool executable & setup the relevant build rules
-include(bpftool)
-include (aosp)
+if (NOT CMAKE_TOOLCHAIN_FILE)
+    generate_build_dir_header(${CMAKE_BINARY_DIR}/build_info.h)
+    ## Building for the host
+    message(STATUS "Building for the host")
+    include(bpftool)
+else()
+    generate_build_dir_header_android(${CMAKE_BINARY_DIR}/build_info.h)
+    ## Trying to build for Android
+    message(STATUS "Cross-compiling for Android")
+    include(android-bpftools)
+    include (aosp)
+endif(NOT CMAKE_TOOLCHAIN_FILE)
 
 enable_testing()
 
