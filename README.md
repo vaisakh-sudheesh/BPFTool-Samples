@@ -108,18 +108,21 @@ $ chmod +x llvm.sh
 $ sudo ./llvm.sh 19
 ```
 
-Install BPF related dependencies:
+Install misc & BPF related dependencies:
 
 ```shell
-$ sudo apt install linux-tools-common linux-tools-generic linux-tools-$(uname -r) bpftrace
+$ sudo apt install linux-tools-common linux-tools-generic linux-tools-$(uname -r) bpftrace cmake
 ```
 
 ## Pre-requisites (for Android based development)
 
 - Install following  Android NDK version `27.x` or above
 - Install android platform tools (for ADB). You may do so by downloading it from Google Android website or via apt (`sudo apt install android-platform-tools-base`)
+- Misc. dependencies: `sudo apt install cmake`
 
 ## Build commands
+
+### Linux Target: Commandline build
 
 Build commands for PC:
 
@@ -131,6 +134,7 @@ $ cmake -S .. -DCMAKE_C_COMPILER=clang-19 -DCMAKE_CXX_COMPILER=clang++-19
 $ cmake --build .
 ```
 
+### Android  Target: Commandline build
 In case of Android, 
 - the configuration step need to be changed w.r.t to the above command listing.
 - Make sure ADB is running in root mode - this is required as `BPFTool` need to be pushed to device in `/data/local/tmp` path to generate skeleton.
@@ -170,6 +174,12 @@ drwxrwxr-x 9 vaisakhps vaisakhps 4.0K Dec  9 02:20 ..
 
 Details about each of the examples are provided in respective README.md in the directories.
 
+In case of VS Code based build, a preset file `CMakePresets.json` is provided to switch between Android and PC/Clang.
+You select/switch using the "CMake: Select Configure Preset" option.
+![VS Code - Cmake preset](/docs/vscode-presets.png)
+
+You can choose the appropriate preset followed by `CMake: Configure` and `CMake: Build` actions to build the targets.
+![VS Code - Cmake preset](/docs/vscode-preset-listing.png)
 
 ## References
 
